@@ -34,13 +34,13 @@ class CassandraDataApplicationTests {
     }
 
     public static ProductReq newProductReq(String name, double price) {
-        ProductReq newProductReq = new ProductReq(name, price, name.indexOf("_") > 0 ? false : true);
+        ProductReq newProductReq = new ProductReq(name, price, name.indexOf("_") <= 0);
         System.out.println(newProductReq);
         return newProductReq;
     }
 
     public static Product newProduct(String name, double price) {
-        Product newProduct = new Product(UUID.randomUUID().toString(), name, price, name.indexOf("_") > 0 ? false : true);
+        Product newProduct = new Product(UUID.randomUUID().toString(), name, price, name.indexOf("_") <= 0);
         System.out.println(newProduct);
         return newProduct;
     }
@@ -123,6 +123,7 @@ class CassandraDataApplicationTests {
         // assert to test
         assertThat(products3).isNotNull();
         assertThat(products3.size()).isEqualTo(1);
+        assert productsEq != null;
         assertThat(products3.get(0).getProductId()).isEqualTo(productsEq.getProductId());
         // query added product by price equal to
         List<Product> products4 = productService.getProductByPrice(106, "eq").getProducts();
